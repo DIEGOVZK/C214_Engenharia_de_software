@@ -5,7 +5,7 @@
 
 // Importa a classe filme
 const prompt = require("prompt-sync")({ sigint: true })
-const listaFilme = require('./Menu');
+const listaFilme = require('./ListaFilme');
 const Filme = require('./Filme');
 
 console.log("\n-------- rotten ketchup --------\n");
