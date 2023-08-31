@@ -4,3 +4,4 @@ film_list/package-lock.json
 film_list/node_modules
 imc/package-lock.json
 imc/node_modules
+imc/public/build
