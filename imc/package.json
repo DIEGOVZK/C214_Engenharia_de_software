@@ -8,7 +8,8 @@
     "run": "sirv public",
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear" 
+    "start": "sirv public --no-clear",
+    "start-server": "npm run build && node ./src/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +23,8 @@
     "rollup-plugin-svelte": "^7.1.2",
     "sirv-cli": "^2.0.0",
     "svelte": "^3.55.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
