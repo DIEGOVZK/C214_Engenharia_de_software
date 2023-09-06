@@ -136,12 +136,12 @@
     }
 
     table {
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
 
     .imc-calculator {
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      padding-inline: 6vh;
-      margin-bottom: 5vh;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        padding-inline: 6vh;
+        margin-bottom: 5vh;
     }
 </style>
