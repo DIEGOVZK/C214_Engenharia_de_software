@@ -11,3 +11,36 @@ A estrutura de arquivos do aplicativo Svelte é organizada da seguinte forma:
 - `package.json`: Este arquivo contém os metadados do aplicativo, como seu nome, versão, dependências e scripts. É usado pelo gerenciador de pacotes para instalar dependências e executar scripts.
 
 - `rollup.config.js`: Este arquivo contém a configuração do sistema de compilação. Ele define como o código-fonte é transformado e agrupado em um único arquivo JavaScript que pode ser servido ao cliente.
+
+--- 
+
+Para servir a página web na porta 9090 usando um servidor Express, foi adicionado o seguinte código ao arquivo `server.js`:
+
+```javascript
+import express from 'express';
+import path from 'path';
+
+const app = express();
+const port = 9090;
+
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, '../public/')));
+
+app.listen(port, () => {
+    console.log(`Running on LOCAL: http://localhost:${port}`);
+});
+```
+
+Este código importa os módulos `express` e `path`, cria uma instância do aplicativo Express e define a porta em que o servidor irá rodar. Em seguida, usa o módulo `url` para obter o caminho do diretório atual e define a rota para servir os arquivos estáticos do diretório `public`. Por fim, inicia o servidor na porta 9090 e exibe uma mensagem no console indicando que o servidor está rodando.
+
+Para executar o servidor, basta executar o seguinte comando:
+
+```
+npm run start-server
+```
+
+Agora, a página web estará disponível em `http://localhost:9090`.
