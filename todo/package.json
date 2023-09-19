@@ -1,0 +1,16 @@
+{
+  "name": "todo_app",
+  "version": "1.0.0",
+  "description": "projeto 1 de c214 (engenharia de software)",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "chai": "4.3.8",
+    "mocha": "10.2.0"
+  },
+  "author": "Diego Anestor Coutinho",
+  "license": "ISC"
+}

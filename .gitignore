@@ -7,3 +7,5 @@ imc/node_modules
 imc/public/build
 Aula 5 - Mocha Chai e Testes Unitários/package-lock.json
 Aula 5 - Mocha Chai e Testes Unitários/node_modules
+todo/package-lock.json
+todo/node_modules
