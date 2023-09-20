@@ -1,20 +1,21 @@
 export class FileHandler {
     constructor(clientId) {
         this.clientId = clientId;
+        this.extension = 'txt';
     }
 
-    getFileName(extension) {
+    getFileName(extension = this.extension) {
         return `${this.clientId}.${extension}`;
     }
 
-    saveFile(data, extension) {
+    writeFile(data, extension = this.extension) {
         const fileName = this.getFileName(extension);
         const filePath = path.join(__dirname, '..', 'persist', fileName);
         fs.writeFileSync(filePath, data);
     }
 
     readFile(extension) {
-        const fileName = this.getFileName(extension);
+        const fileName = this.getFileName(extension = this.extension);
         const filePath = path.join(__dirname, '..', 'persist', fileName);
 
         try {
@@ -26,4 +27,3 @@ export class FileHandler {
         }
     }
 }
-
