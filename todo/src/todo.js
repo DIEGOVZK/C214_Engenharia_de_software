@@ -1,7 +1,7 @@
 import { FileHandler } from './persist.js';
 const fileHandler = new FileHandler('default');
 
-class TODO {
+export class TODO {
 
     constructor(fs_obj = fileHandler) {
         this.fs_obj = fs_obj
