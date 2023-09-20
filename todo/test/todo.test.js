@@ -29,4 +29,38 @@ describe('TODO', () => {
             expect(todo.getTodoList()).to.be.an('array').that.is.empty;
         });
     });
+
+    describe('---- loadFromFile ----', () => {
+        it('should load todo lists from file', () => {
+            const fakeData = JSON.stringify({ todo: ['Task 1'], done: [] });
+            sinon.stub(fileHandler, 'readFile').returns(fakeData);
+
+            todo.loadFromFile();
+            expect(todo.getTodoList()).to.deep.equal(['Task 1']);
+        });
+
+        it('should load done lists from file', () => {
+            const fakeData = JSON.stringify({ todo: [], done: ['Task 1'] });
+            sinon.stub(fileHandler, 'readFile').returns(fakeData);
+
+            todo.loadFromFile();
+            expect(todo.getDoneList()).to.deep.equal(['Task 1']);
+        });
+
+        it('should load todo lists from file with no todos', () => {
+            const fakeData = JSON.stringify({ todo: [], done: ['Task 1'] });
+            sinon.stub(fileHandler, 'readFile').returns(fakeData);
+
+            todo.loadFromFile();
+            expect(todo.getTodoList()).to.be.an('array').that.is.empty;
+        });
+
+        it('should load done lists from file with no dones', () => {
+            const fakeData = JSON.stringify({ todo: ['Task 1'], done: [] });
+            sinon.stub(fileHandler, 'readFile').returns(fakeData);
+
+            todo.loadFromFile();
+            expect(todo.getDoneList()).to.be.an('array').that.is.empty;
+        });
+    });
 });
