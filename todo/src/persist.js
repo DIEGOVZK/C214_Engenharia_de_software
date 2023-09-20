@@ -1,7 +1,13 @@
+import { fileURLToPath } from 'url';
+import path from 'path';
+import fs from 'fs';
+
 export class FileHandler {
     constructor(clientId) {
         this.clientId = clientId;
         this.extension = 'txt';
+        const __filename = fileURLToPath(import.meta.url);
+        this.__dirname = path.dirname(__filename);
     }
 
     getFileName(extension = this.extension) {
@@ -10,19 +16,18 @@ export class FileHandler {
 
     writeFile(data, extension = this.extension) {
         const fileName = this.getFileName(extension);
-        const filePath = path.join(__dirname, '..', 'persist', fileName);
+        const filePath = path.join(this.__dirname, '..', 'persist', fileName);
         fs.writeFileSync(filePath, data);
     }
 
-    readFile(extension) {
-        const fileName = this.getFileName(extension = this.extension);
-        const filePath = path.join(__dirname, '..', 'persist', fileName);
+    readFile(extension = this.extension) {
+        const fileName = this.getFileName(extension);
+        const filePath = path.join(this.__dirname, '..', 'persist', fileName);
 
         try {
             const data = fs.readFileSync(filePath, 'utf-8');
             return data;
         } catch (error) {
-            console.error(`Error reading file '${fileName}': ${error.message}`);
             return null;
         }
     }
