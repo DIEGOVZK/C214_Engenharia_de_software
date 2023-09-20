@@ -10,11 +10,17 @@ class TODO {
     }
 
     loadFromFile() {
-
+        const data = this.fs_obj.readFile();
+        if (data) {
+            const { todo, done } = JSON.parse(data);
+            this.todo = todo;
+            this.done = done;
+        }
     }
 
     saveToFile() {
-
+        const data = JSON.stringify({ todo: this.todo, done: this.done });
+        this.fs_obj.writeFile(data);
     }
 
     getTodoList() {
