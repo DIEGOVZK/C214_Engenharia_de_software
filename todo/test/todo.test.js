@@ -63,4 +63,18 @@ describe('TODO', () => {
             expect(todo.getDoneList()).to.be.an('array').that.is.empty;
         });
     });
+
+    describe('---- setters & setters ----', () => {
+        it('should set todo list when calling setTodoList', () => {
+            const testList = ['task1', 'task2', 'task3'];
+            todo.setTodoList(testList);
+            expect(todo.getTodoList()).to.deep.equal(testList);
+        });
+
+        it('should set done list when calling setDoneList', () => {
+            const testList = ['task1', 'task2', 'task3'];
+            todo.setDoneList(testList);
+            expect(todo.getDoneList()).to.deep.equal(testList);
+        });
+    });
 });
