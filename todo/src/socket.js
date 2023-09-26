@@ -1,7 +1,9 @@
-const WebSocket = require('ws');
+import { WebSocketServer } from 'ws';
+import { FileHandler } from './persist.js';
+const standardWebSocketInstance = new WebSocketServer({ port: 90 });
 
 export class SocketHandler {
-    constructor(webSocketInstance) {
+    constructor(webSocketInstance = standardWebSocketInstance) {
         this.webSocket = webSocketInstance;
 
         this.connections = new Set();
@@ -39,13 +41,17 @@ export class SocketHandler {
     }
 
     handleDataRequest(socket, data) {
-        // TODO: Process data request and send a response
-        const response = { type: 'response', message: 'Data request handled' };
-        socket.send(JSON.stringify(response));
+        console.log('Requested load of file:', data);
+        const userID = data.user;
+        const fileHandler = new FileHandler(userID);
+        const result = fileHandler.readFile();
+        socket.send(result);
     }
 
     handleDataPost(socket, data) {
-        // TODO: Process data post
         console.log('Received data post:', data);
+        const userID = data.user;
+        const fileHandler = new FileHandler(userID);
+        fileHandler.writeFile(JSON.stringify(data.data));
     }
 }
