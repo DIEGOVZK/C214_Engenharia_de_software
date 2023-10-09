@@ -19,132 +19,138 @@ describe('ServerAT', () => {
         sinon.restore();
     });
 
-    it('should be an instance of ServerAT', () => {
-        expect(serverAT).to.be.an.instanceOf(ServerAT);
-    });
+    describe('ServerAT (happy path)', () => {
+        it('should be an instance of ServerAT', () => {
+            expect(serverAT).to.be.an.instanceOf(ServerAT);
+        });
 
-    it('should parse the result from the database correctly (happy path)', async () => {
+        it('should parse the result from the database correctly', async () => {
 
-        const queryResult = [
-            {
-                "getlistbybuilding": {
+            const queryResult = [
+                {
+                    "getlistbybuilding": {
+                        nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
+                        horarioDeAtendimento: 'Terça 19:30 - 21:10',
+                        periodo: 'Noturno',
+                        sala: '3',
+                        predio: '1',
+                    }
+                }
+            ];
+
+            const expectedResult = [
+                {
                     nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
                     horarioDeAtendimento: 'Terça 19:30 - 21:10',
                     periodo: 'Noturno',
                     sala: '3',
                     predio: '1',
                 }
-            }
-        ];
+            ];
 
-        const expectedResult = [
-            {
+            dbMock.unsafe.resolves(queryResult);
+
+            const building = '1';
+            const result = await serverAT.loadFromBuilding(building);
+
+            expect(result).to.deep.equal(expectedResult);
+        });
+
+        it('should parse multiple results from the database correctly', async () => {
+
+            const queryResult = [
+                {
+                    "getlistbybuilding": {
+                        nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
+                        horarioDeAtendimento: 'Terça 19:30 - 21:10',
+                        periodo: 'Noturno',
+                        sala: '3',
+                        predio: '1',
+                    }
+                },
+                {
+                    "getlistbybuilding": {
+                        nomeDoProfessor: 'Edson Josias Cruz Gimenez',
+                        horarioDeAtendimento: 'Quarta 15:30 - 17:10',
+                        periodo: 'Integral',
+                        sala: '2',
+                        predio: '1',
+                    }
+                },
+            ];
+
+            const expectedResult = [
+                {
                     nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
                     horarioDeAtendimento: 'Terça 19:30 - 21:10',
                     periodo: 'Noturno',
                     sala: '3',
                     predio: '1',
-            }
-        ];
-
-        dbMock.unsafe.resolves(queryResult);
-
-        const building = '1';
-        const result = await serverAT.loadFromBuilding(building);
-
-        expect(result).to.deep.equal(expectedResult);
-    });
-
-    it('should parse multiple results from the database correctly (happy path)', async () => {
-
-        const queryResult = [
-            {
-                "getlistbybuilding": {
-                    nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
-                    horarioDeAtendimento: 'Terça 19:30 - 21:10',
-                    periodo: 'Noturno',
-                    sala: '3',
-                    predio: '1',
-                }
-            },
-            {
-                "getlistbybuilding": {
+                },
+                {
                     nomeDoProfessor: 'Edson Josias Cruz Gimenez',
                     horarioDeAtendimento: 'Quarta 15:30 - 17:10',
                     periodo: 'Integral',
                     sala: '2',
                     predio: '1',
-                }
-            },
-        ];
+                },
+            ];
 
-        const expectedResult = [
-            {
-                    nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
-                    horarioDeAtendimento: 'Terça 19:30 - 21:10',
-                    periodo: 'Noturno',
-                    sala: '3',
-                    predio: '1',
-            },
-            {
-                    nomeDoProfessor: 'Edson Josias Cruz Gimenez',
-                    horarioDeAtendimento: 'Quarta 15:30 - 17:10',
-                    periodo: 'Integral',
-                    sala: '2',
-                    predio: '1',
-            },
-        ];
+            dbMock.unsafe.resolves(queryResult);
 
-        dbMock.unsafe.resolves(queryResult);
+            const building = '1';
+            const result = await serverAT.loadFromBuilding(building);
 
-        const building = '1';
-        const result = await serverAT.loadFromBuilding(building);
-
-        expect(result).to.deep.equal(expectedResult);
+            expect(result).to.deep.equal(expectedResult);
+        });
     });
 
-    it('should handle an empty result from the database (sad path)', async () => {
-        dbMock.unsafe.resolves([]);
+    describe('ServerAT (sad path)', () => {
 
-        const building = '2';
-        const result = await serverAT.loadFromBuilding(building);
 
-        expect(result).to.deep.equal([]);
-    });
+        it('should handle an empty result from the database', async () => {
+            dbMock.unsafe.resolves([]);
 
-    it('should handle an absurd case where the database result diverges from normal', async () => {
-        const queryResult = [
-            {
-                somethingUnexpected: 'Unexpected data',
-            },
-        ];
+            const building = '2';
+            const result = await serverAT.loadFromBuilding(building);
 
-        dbMock.unsafe.resolves(queryResult);
+            expect(result).to.deep.equal([]);
+        });
 
-        const building = '4';
-        const result = await serverAT.loadFromBuilding(building);
+        it('should handle an absurd case where the database result diverges from normal', async () => {
+            const queryResult = [
+                {
+                    somethingUnexpected: 'Unexpected data',
+                },
+            ];
 
-        expect(result).to.deep.equal([]);
-    });
+            dbMock.unsafe.resolves(queryResult);
 
-    it('should handle a case where the building type does not match the parameter', async () => {
-        const queryResult = [
-            {
-                getlistbybuilding: {
-                    nomeDoProfessor: 'Christopher de Souza Lima Francisco',
-                    horarioDeAtendimento: 'Quinta 10:00 - 11:40',
-                    periodo: 'Integral',
-                    sala: '19',
-                    predio: '2',
-            },
-            },
-        ];
+            const building = '4';
+            const result = await serverAT.loadFromBuilding(building);
 
-        dbMock.unsafe.resolves(queryResult);
+            expect(result).to.deep.equal([]);
+        });
 
-        const building = '4';
-        const result = await serverAT.loadFromBuilding(building);
+        it('should handle a case where the building type does not match the parameter', async () => {
+            const queryResult = [
+                {
+                    getlistbybuilding: {
+                        nomeDoProfessor: 'Christopher de Souza Lima Francisco',
+                        horarioDeAtendimento: 'Quinta 10:00 - 11:40',
+                        periodo: 'Integral',
+                        sala: '19',
+                        predio: '2',
+                    },
+                },
+            ];
 
-        expect(result).to.deep.equal([]);
+            dbMock.unsafe.resolves(queryResult);
+
+            const building = '4';
+            const result = await serverAT.loadFromBuilding(building);
+
+            expect(result).to.deep.equal([]);
+        });
     });
 });
