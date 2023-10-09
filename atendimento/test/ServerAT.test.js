@@ -80,4 +80,19 @@ describe('ServerAT', () => {
         expect(result).to.deep.equal([]);
     });
 
+    it('should handle an absurd case where the database result diverges from normal', async () => {
+        const queryResult = [
+            {
+                somethingUnexpected: 'Unexpected data',
+            },
+        ];
+
+        dbMock.unsafe.resolves(queryResult);
+
+        const building = '4';
+        const result = await serverAT.loadFromBuilding(building);
+
+        expect(result).to.deep.equal([]);
+    });
+
 });
