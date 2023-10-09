@@ -68,8 +68,8 @@ describe('Hrat', () => {
             expect(result).to.deep.equal(expectedResult);
         });
 
-        describe('Hrat (happy path)', () => {
-            it('should handle an empty result from the server (sad path)', () => {
+        describe('Hrat (sad path)', () => {
+            it('should handle an empty result from the server', () => {
                 serverATMock.loadFromBuilding.returns([]);
 
                 const sala = 6;
@@ -78,17 +78,5 @@ describe('Hrat', () => {
                 expect(result).to.deep.equal([]);
             });
         });
-    });
-
-
-
-    it('should handle an empty result from the server (sad path)', () => {
-        // Mock the serverAT query response as empty
-        serverATMock.loadFromBuilding.returns([]);
-
-        const sala = 6;
-        const result = hrat.loadFromServer(sala);
-
-        expect(result).to.deep.equal([]);
     });
 });
