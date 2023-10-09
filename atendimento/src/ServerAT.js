@@ -33,7 +33,7 @@ class ServerAT {
         let result = await this.query(`SELECT getlistbybuilding (${building})`);
         let data = [];
         result.forEach(element => {
-            data.push(element.getlistbybuilding)
+            if (element.getlistbybuilding !== undefined) data.push(element.getlistbybuilding)
         });
         return data;
     }
