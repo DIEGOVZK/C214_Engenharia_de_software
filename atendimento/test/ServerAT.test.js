@@ -103,7 +103,7 @@ describe('ServerAT', () => {
                     horarioDeAtendimento: 'Quinta 10:00 - 11:40',
                     periodo: 'Integral',
                     sala: '19',
-                    predio: '1',
+                    predio: '2',
             },
             },
         ];
