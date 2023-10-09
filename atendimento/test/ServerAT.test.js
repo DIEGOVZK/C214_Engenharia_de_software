@@ -131,6 +131,15 @@ describe('ServerAT', () => {
 
             expect(result).to.deep.equal(['João Pedro Magalhães de Paula Paiva', 'Edson Josias Cruz Gimenez']);
         });
+
+        it('should handle an empty result from the database', async () => {
+            dbMock.unsafe.resolves([]);
+    
+            const building = '3';
+            const result = await serverAT.listNamesFromBuilding(building);
+    
+            expect(result).to.deep.equal([]);
+        });
     });
 
     describe('ServerAT (sad path)', () => {
@@ -209,6 +218,27 @@ describe('ServerAT', () => {
             const result = await serverAT.listNamesFromBuilding(building);
 
             expect(result).to.deep.equal(['Christopher de Souza Lima Francisco']);
+        });
+
+        it('should handle a case where the building type does not match the parameter', async () => {
+            const queryResult = [
+                {
+                    getlistbybuilding: {
+                        nomeDoProfessor: 'Christopher de Souza Lima Francisco',
+                        horarioDeAtendimento: 'Quinta 10:00 - 11:40',
+                        periodo: 'Integral',
+                        sala: '19',
+                        predio: '4',
+                    },
+                }
+            ];
+    
+            dbMock.unsafe.resolves(queryResult);
+    
+            const building = '2';
+            const result = await serverAT.listNamesFromBuilding(building);
+    
+            expect(result).to.deep.equal([]);
         });
     });
 });
