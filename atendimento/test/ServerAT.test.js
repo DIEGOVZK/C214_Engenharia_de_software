@@ -95,4 +95,24 @@ describe('ServerAT', () => {
         expect(result).to.deep.equal([]);
     });
 
+    it('should handle a case where the building type does not match the parameter', async () => {
+        const queryResult = [
+            {
+                getlistbybuilding: {
+                    nomeDoProfessor: 'Christopher de Souza Lima Francisco',
+                    horarioDeAtendimento: 'Quinta 10:00 - 11:40',
+                    periodo: 'Integral',
+                    sala: '19',
+                    predio: '1',
+            },
+            },
+        ];
+
+        dbMock.unsafe.resolves(queryResult);
+
+        const building = '4';
+        const result = await serverAT.loadFromBuilding(building);
+
+        expect(result).to.deep.equal([]);
+    });
 });
