@@ -71,4 +71,13 @@ describe('ServerAT', () => {
         expect(result).to.deep.equal(expectedResult);
     });
 
+    it('should handle an empty result from the database (sad path)', async () => {
+        dbMock.unsafe.resolves([]);
+
+        const building = '2';
+        const result = await serverAT.loadFromBuilding(building);
+
+        expect(result).to.deep.equal([]);
+    });
+
 });
