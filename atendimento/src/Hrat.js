@@ -11,10 +11,12 @@ class Hrat {
 
     loadFromServer(sala = 0) {
         if (sala >= 1 && sala <= 5) this.hratList = this.server.loadFromBuilding(1);
-        if (sala >= 6 && sala <= 5) this.hratList = this.server.loadFromBuilding(1);
+        if (sala >= 6 && sala <= 10) this.hratList = this.server.loadFromBuilding(2);
+        if (sala >= 11 && sala <= 15) this.hratList = this.server.loadFromBuilding(3);
+        if (sala >= 16 && sala <= 20) this.hratList = this.server.loadFromBuilding(4);
 
         try {
-            JSON.parse(this.hratList);
+            eval(this.hratList);
             return this.hratList;
         } catch (e) {
             return null;
