@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "projeto 1 de c214 (engenharia de software)",
   "main": "src/Main.js",
+  "type": "module",
   "scripts": {
     "test": "mocha",
     "start": "node src/Main.js"
   },
   "dependencies": {
+    "postgres": "3.3.5",
+    "prompt-sync": "^4.2.0"
+
   },
   "devDependencies": {
     "chai": "4.3.8",
