@@ -41,6 +41,19 @@ class ServerAT {
         });
         return data;
     }
+
+    async listNamesFromBuilding(building) {
+        let result = await this.query(`SELECT getlistbybuilding (${building})`);
+        let data = [];
+        result.forEach(element => {
+            if (element.getlistbybuilding !== undefined) {
+                if (element.getlistbybuilding.predio === building) {
+                    data.push(element.getlistbybuilding.nomeDoProfessor)
+                }
+            }
+        });
+        return data;
+    }
 }
 
 export default ServerAT;
