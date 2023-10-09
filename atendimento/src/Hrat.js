@@ -22,6 +22,21 @@ class Hrat {
             return null;
         }
     }
+
+    loadAsList(sala = 0) {
+        const json = this.loadFromServer(sala);
+        if (!json) return null;
+        const data = JSON.parse(json);
+        const arr = [];
+        for (const obj of data) {
+            const innerArr = [];
+            for (const key in obj) {
+                innerArr.push(obj[key]);
+            }
+            arr.push(innerArr);
+        }
+        return arr;
+    }
 }
 
 export default Hrat;
