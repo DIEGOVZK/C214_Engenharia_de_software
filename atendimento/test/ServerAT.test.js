@@ -34,6 +34,38 @@ describe('ServerAT', () => {
                     sala: '3',
                     predio: '1',
                 }
+            }
+        ];
+
+        const expectedResult = [
+            {
+                    nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
+                    horarioDeAtendimento: 'Terça 19:30 - 21:10',
+                    periodo: 'Noturno',
+                    sala: '3',
+                    predio: '1',
+            }
+        ];
+
+        dbMock.unsafe.resolves(queryResult);
+
+        const building = '1';
+        const result = await serverAT.loadFromBuilding(building);
+
+        expect(result).to.deep.equal(expectedResult);
+    });
+
+    it('should parse multiple results from the database correctly (happy path)', async () => {
+
+        const queryResult = [
+            {
+                "getlistbybuilding": {
+                    nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
+                    horarioDeAtendimento: 'Terça 19:30 - 21:10',
+                    periodo: 'Noturno',
+                    sala: '3',
+                    predio: '1',
+                }
             },
             {
                 "getlistbybuilding": {
