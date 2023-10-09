@@ -7,11 +7,9 @@ describe('ServerAT', () => {
     let dbMock;
 
     beforeEach(() => {
-        // Mock database usando Sinon
         dbMock = {
             unsafe: sinon.stub(),
         };
-
         serverAT = new ServerAT(dbMock);
     });
 
@@ -28,7 +26,7 @@ describe('ServerAT', () => {
 
             const queryResult = [
                 {
-                    "getlistbybuilding": {
+                    getlistbybuilding: {
                         nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
                         horarioDeAtendimento: 'Terça 19:30 - 21:10',
                         periodo: 'Noturno',
@@ -60,7 +58,7 @@ describe('ServerAT', () => {
 
             const queryResult = [
                 {
-                    "getlistbybuilding": {
+                    getlistbybuilding: {
                         nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
                         horarioDeAtendimento: 'Terça 19:30 - 21:10',
                         periodo: 'Noturno',
@@ -69,7 +67,7 @@ describe('ServerAT', () => {
                     }
                 },
                 {
-                    "getlistbybuilding": {
+                    getlistbybuilding: {
                         nomeDoProfessor: 'Edson Josias Cruz Gimenez',
                         horarioDeAtendimento: 'Quarta 15:30 - 17:10',
                         periodo: 'Integral',
@@ -102,6 +100,36 @@ describe('ServerAT', () => {
             const result = await serverAT.loadFromBuilding(building);
 
             expect(result).to.deep.equal(expectedResult);
+        });
+
+        it('should list names of professors from a specific building', async () => {
+            const queryResult = [
+                {
+                    getlistbybuilding: {
+                        nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
+                        horarioDeAtendimento: 'Terça 19:30 - 21:10',
+                        periodo: 'Noturno',
+                        sala: '3',
+                        predio: '1',
+                    }
+                },
+                {
+                    getlistbybuilding: {
+                        nomeDoProfessor: 'Edson Josias Cruz Gimenez',
+                        horarioDeAtendimento: 'Quarta 15:30 - 17:10',
+                        periodo: 'Integral',
+                        sala: '2',
+                        predio: '1',
+                    }
+                }
+            ];
+
+            dbMock.unsafe.resolves(queryResult);
+
+            const building = '1';
+            const result = await serverAT.listNamesFromBuilding(building);
+
+            expect(result).to.deep.equal(['João Pedro Magalhães de Paula Paiva', 'Edson Josias Cruz Gimenez']);
         });
     });
 
@@ -151,6 +179,36 @@ describe('ServerAT', () => {
             const result = await serverAT.loadFromBuilding(building);
 
             expect(result).to.deep.equal([]);
+        });
+
+        it('should list names of professors from a specific building, and ignore the ones from a failed query', async () => {
+            const queryResult = [
+                {
+                    getlistbybuilding: {
+                        nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
+                        horarioDeAtendimento: 'Terça 19:30 - 21:10',
+                        periodo: 'Noturno',
+                        sala: '3',
+                        predio: '1',
+                    }
+                },
+                {
+                    getlistbybuilding: {
+                        nomeDoProfessor: 'Christopher de Souza Lima Francisco',
+                        horarioDeAtendimento: 'Quinta 10:00 - 11:40',
+                        periodo: 'Integral',
+                        sala: '19',
+                        predio: '4',
+                    },
+                }
+            ];
+
+            dbMock.unsafe.resolves(queryResult);
+
+            const building = '4';
+            const result = await serverAT.listNamesFromBuilding(building);
+
+            expect(result).to.deep.equal(['Christopher de Souza Lima Francisco']);
         });
     });
 });
