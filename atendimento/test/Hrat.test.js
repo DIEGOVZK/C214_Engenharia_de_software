@@ -107,8 +107,7 @@ describe('Hrat', () => {
             ]);
         });
 
-        it('should load professors as a nested array', () => {
-            // Mock the serverAT query response
+        it('should load professors as a nested array from building 1', () => {
             const queryResult = [
                 {
                     nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
@@ -134,6 +133,29 @@ describe('Hrat', () => {
             serverATMock.loadFromBuilding.returns(queryResult);
 
             const sala = 2;
+            const result = hrat.loadAsList(sala);
+
+            expect(result).to.deep.equal(expectedResult);
+        });
+
+        it('should load professors as a nested array from building 4, with a single entry', () => {
+            const queryResult = [
+                {
+                    nomeDoProfessor: 'Christopher de Souza Lima Francisco',
+                    horarioDeAtendimento: 'Quinta 10:00 - 11:40',
+                    periodo: 'Integral',
+                    sala: '19',
+                    predio: '2',
+                }
+            ];
+
+            const expectedResult = [
+                ['Christopher de Souza Lima Francisco', 'Quinta 10:00 - 11:40', 'Integral', '19', '2']
+            ];
+
+            serverATMock.loadFromBuilding.returns(queryResult);
+
+            const sala = 19;
             const result = hrat.loadAsList(sala);
 
             expect(result).to.deep.equal(expectedResult);
