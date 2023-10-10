@@ -25,7 +25,7 @@ class Hrat {
 
     loadAsList(sala = 0) {
         const json = this.loadFromServer(sala);
-        if (json.lenght === 0) return null;
+        if (!json || json.length === 0) return null;
         const arr = [];
         for (const obj of json) {
             const innerArr = [];
