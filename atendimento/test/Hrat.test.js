@@ -106,6 +106,37 @@ describe('Hrat', () => {
                 }
             ]);
         });
+        it('should load professors as a nested array', () => {
+            // Mock the serverAT query response
+            const queryResult = [
+                {
+                    nomeDoProfessor: 'João Pedro Magalhães de Paula Paiva',
+                    horarioDeAtendimento: 'Terça 19:30 - 21:10',
+                    periodo: 'Noturno',
+                    sala: '3',
+                    predio: '1',
+                },
+                {
+                    nomeDoProfessor: 'Edson Josias Cruz Gimenez',
+                    horarioDeAtendimento: 'Quarta 15:30 - 17:10',
+                    periodo: 'Integral',
+                    sala: '2',
+                    predio: '1',
+                },
+            ];
+
+            const expectedResult = [
+                ['João Pedro Magalhães de Paula Paiva', 'Terça 19:30 - 21:10', 'Noturno', '3', '1'],
+                ['Edson Josias Cruz Gimenez', 'Quarta 15:30 - 17:10', 'Integral', '2', '1'],
+            ];
+
+            serverATMock.loadFromBuilding.returns(queryResult);
+
+            const sala = 2;
+            const result = hrat.loadAsList(sala);
+
+            expect(result).to.deep.equal(expectedResult);
+        });
     });
 
     describe('Hrat (sad path)', () => {
