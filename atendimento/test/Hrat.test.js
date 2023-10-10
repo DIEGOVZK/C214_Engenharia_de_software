@@ -106,6 +106,7 @@ describe('Hrat', () => {
                 }
             ]);
         });
+
         it('should load professors as a nested array', () => {
             // Mock the serverAT query response
             const queryResult = [
@@ -220,6 +221,15 @@ describe('Hrat', () => {
             const result = hrat.loadFromServer(sala);
 
             expect(result).to.be.not.equal(expectedResult);
+        });
+
+        it('should handle an empty result from the server', () => {
+            serverATMock.loadFromBuilding.returns([]);
+    
+            const sala = 6;
+            const result = hrat.loadAsList(sala);
+    
+            expect(result).to.be.null;
         });
     });
 });
