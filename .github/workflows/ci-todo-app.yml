@@ -17,6 +17,9 @@ jobs:
       with: 
         node-version: '14'
     
+    - name: Navigate to folder
+      run: cd todo
+      
     - name: Install deps
       run: npm install
 
