@@ -1,6 +1,5 @@
 # Lista de Tarefas
 
-![workflow-ci-pass-notpass](https://github.com/DIEGOVZK/C214_Engenharia_de_software/actions/workflows/ci-todo-app.yml/badge.svg)
 
 Este é um aplicativo de lista de tarefas simples que permite que você adicione e edite tarefas. Ele também permite que você marque as tarefas como concluídas e salve a lista de tarefas em um arquivo no servidor remoto.
 

@@ -1,0 +1,1 @@
+![workflow-ci-pass-notpass](https://github.com/DIEGOVZK/C214_Engenharia_de_software/actions/workflows/ci-aula5-app.yml/badge.svg)

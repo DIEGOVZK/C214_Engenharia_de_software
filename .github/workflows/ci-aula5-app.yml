@@ -19,6 +19,6 @@ jobs:
     
     - name: Build and test
       run: |
-        cd todo
+        cd '.\Aula 5 - Mocha Chai e Testes Unitários\'
         npm install
         npm run test
