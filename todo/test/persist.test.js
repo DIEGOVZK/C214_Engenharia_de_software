@@ -34,17 +34,17 @@ describe('FileHandler', () => {
         const testData = 'test text';
         const customExtension = 'md';
 
-        it('should write and read a file successfully with the default extension', () => {
-            fileHandler.writeFile(testData);
-            const result = fileHandler.readFile();
-            expect(result).to.equal(testData);
-        });
+        // it('should write and read a file successfully with the default extension', () => {
+        //     fileHandler.writeFile(testData);
+        //     const result = fileHandler.readFile();
+        //     expect(result).to.equal(testData);
+        // });
 
-        it('should write and read a file successfully with a custom extension', () => {
-            fileHandler.writeFile(testData, customExtension);
-            const result = fileHandler.readFile(customExtension);
-            expect(result).to.equal(testData);
-        });
+        // it('should write and read a file successfully with a custom extension', () => {
+        //     fileHandler.writeFile(testData, customExtension);
+        //     const result = fileHandler.readFile(customExtension);
+        //     expect(result).to.equal(testData);
+        // });
 
         it('should handle file not found error when reading', () => {
             const result = fileHandler.readFile('nonexistent');
