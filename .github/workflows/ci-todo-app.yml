@@ -1,0 +1,24 @@
+name: Aula 8 - CI
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-todo-app:
+    name: Validações com testes
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Configure nodejs
+      uses: actions/setup-node@v2
+      with: 
+        node-version: '14'
+    
+    - name: Install deps
+      run: npm install
+
+    - name: Execute tests
+      run: npm run test
